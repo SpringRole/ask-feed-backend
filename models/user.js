@@ -21,6 +21,18 @@ const userSchema = mongoose.Schema({
   phoneNo: {
     type: Number,
   },
+  isVarified:{
+    type: Boolean,
+    default:false
+  },
+  token:{
+    type: String
+  },
+  resetToken:{
+    type: String , 
+    default:null
+  }
+
 });
 const User = mongoose.model("User", userSchema);
 module.exports = { User };
