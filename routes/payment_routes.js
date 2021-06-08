@@ -14,8 +14,8 @@ router.get('/',(req,res)=>{
         })
         .then((customer)=>{
             return stripe.charges.create({
-                amount:20,
-                description:'Feedback And Details About Companies',
+                amount:50,
+                description:'Add credits',
                 currency:'inr',
                 customer:customer.id
          })
