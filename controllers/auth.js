@@ -103,7 +103,7 @@ const resetlink = async (req, res) => {
     };
     try {
       await transporter.sendMail(data);
-      res.send("Email sent Successfully!");
+      res.send("Email sent Successfully!");    
     } catch (err) {
       console.log("error occured while sending email!", err);
     }
@@ -148,7 +148,6 @@ const login=async(req,res)=>{
               {
                 const token=jwt.sign({email ,_id},JWT_SECRET)
               res.send({token})
-
               }
               else
               {

@@ -22,3 +22,4 @@ const surveySchema=mongoose.Schema({
 })
 const Survey = mongoose.model("Survey",surveySchema)
 module.exports={Survey}
+//created the survey api
