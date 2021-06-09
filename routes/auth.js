@@ -8,5 +8,4 @@ router.post('/activate', verifyAccount)
 router.post('/resetlink', resetlink)
 router.post('/changepassword',changepassword)
 router.post('/login',login)
-router.post('/createservey',create_survey)
 module.exports = router;
