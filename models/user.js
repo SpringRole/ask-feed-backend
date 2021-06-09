@@ -1,40 +1,35 @@
 const mongoose = require("mongoose");
-// const crypto = require ('crypto')
-
 
 const userSchema = mongoose.Schema({
-
   username: {
     type: String,
-    required:true,
-    max:64,
+    required: true,
+    max: 64,
   },
   password: {
     type: String,
-    required:true,
+    required: true,
   },
   email: {
     type: String,
-    unique:true,
+    unique: true,
     lowercase: true,
   },
   phoneNo: {
     type: Number,
   },
-  isVarified:{
+  isVarified: {
     type: Boolean,
-    default:false
+    default: false,
   },
-  token:{
-    type: String
+  token: {
+    type: String,
   },
-  resetToken:{
-    type: String , 
-    default:null
-  }
-
+  resetToken: {
+    type: String,
+    default: null,
+  },
 });
-
 
 const User = mongoose.model("User", userSchema);
 module.exports = { User };

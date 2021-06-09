@@ -1,25 +1,23 @@
+const mongoose = require("mongoose");
 
-const mongoose=require('mongoose')
-
-const surveySchema=mongoose.Schema({
-   title:{
-       type:String
-   },
-   type:{
-       type:String
-   },
-   questionsSet:[
+const surveySchema = mongoose.Schema({
+  title: {
+    type: String,
+  },
+  type: {
+    type: String,
+  },
+  questionsSet: [
     {
-        ques:{
-            type: String
-        },
-        ans:{
-            type: [Boolean]
-        }
-    }
-]
+      ques: {
+        type: String,
+      },
+      ans: {
+        type: String,
+      },
+    },
+  ],
+});
 
-})
-//created the survey api now 
-const Survey = mongoose.model("Survey",surveySchema)
-module.exports={Survey}
+const Survey = mongoose.model("Survey", surveySchema);
+module.exports = { Survey };
