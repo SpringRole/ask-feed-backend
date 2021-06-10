@@ -2,7 +2,6 @@ const { User } = require("../models/user");
 const nodemailer = require("nodemailer");
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-JWT_SECRET = "askfeed1234";
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
@@ -17,7 +16,7 @@ const signup = async (req, res) => {
   const userexist = await User.findOne({ email });
   if (!userexist) {
     const hashedPass = await bcryptjs.hashSync(password, 10);
-    const token = jwt.sign({ username, email }, JWT_SECRET, {
+    const token = jwt.sign({ username, email }, process.env.JWT_SECRET, {
       expiresIn: "30m",
     });
     const newUser = {
@@ -35,7 +34,7 @@ const signup = async (req, res) => {
         to: email,
         subject: "Account activation link",
         html: `<h2>PLease click on given link to activate your account</h2>
-              <p>http://localhost:2000/api/activate/?token=${token}</p>
+              <p>http://localhost:2000/api/activate/${token}</p>
        `,
       };
       try {
@@ -53,8 +52,8 @@ const signup = async (req, res) => {
 
 const verifyAccount = async (req, res) => {
   try {
-    const token = req.query.token;
-    const decodedUser = jwt.verify(token, JWT_SECRET);
+    const token = req.params.token;
+    const decodedUser = jwt.verify(token, process.env.JWT_SECRET);
 
     const user = await User.findOne({ email: decodedUser.email, token: token });
     if (user) {
@@ -81,7 +80,7 @@ const resetlink = async (req, res) => {
   const user = await User.findOne({ email });
   // console.log("user", user, email);
   if (user) {
-    const token = jwt.sign({ email }, JWT_SECRET, {
+    const token = jwt.sign({ email }, process.env.JWT_SECRET, {
       expiresIn: "30m",
     });
 
@@ -112,52 +111,41 @@ const resetlink = async (req, res) => {
   }
 };
 
-
-const changepassword = async(req,res) =>{
-  const { password}=req.body;
+const changepassword = async (req, res) => {
+  const { password } = req.body;
   const token = req.query.token;
-  const decodedtoken = jwt.verify(token,JWT_SECRET)
+  const decodedtoken = jwt.verify(token, process.env.JWT_SECRET);
   const hashedPass = await bcryptjs.hashSync(password, 10);
-  const user= await User.findOneAndUpdate({email:decodedtoken.email, resetToken:token },
-    {$set:
-      {
+  const user = await User.findOneAndUpdate(
+    { email: decodedtoken.email, resetToken: token },
+    {
+      $set: {
         password: hashedPass,
-        resetToken:null
-      }
+        resetToken: null,
+      },
     }
-    )
-    if(user)
-    {
-      res.send("Password updated successfully!")
-    }
-    else
-    {
-      res.send("Unable to reset password!")
-    }
+  );
+  if (user) {
+    res.send("Password updated successfully!");
+  } else {
+    res.send("Unable to reset password!");
   }
-const login=async(req,res)=>{
-  const {email,password}=req.body
-  const user=await User.findOne({email})
-  const {_id}=user
-  if(user)
- 
-  {
-    console.log("user",user)
-    const matchpassword=  await bcryptjs.compare(password,user.password)
-              if(matchpassword && user.isVarified)
-              {
-                const token=jwt.sign({email ,_id},JWT_SECRET)
-              res.send({token})
-
-              }
-              else
-              {
-              res.send("Login unsuccessful!")
-              }
-            }
-    else
-    {
-       res.send("Incorrect Email or password!")
+};
+const login = async (req, res) => {
+  const { email, password } = req.body;
+  const user = await User.findOne({ email });
+  const { _id } = user;
+  if (user) {
+    console.log("user", user);
+    const matchpassword = await bcryptjs.compare(password, user.password);
+    if (matchpassword && user.isVarified) {
+      const token = jwt.sign({ email, _id }, process.env.JWT_SECRET);
+      res.send({ token });
+    } else {
+      res.send("Login unsuccessful!");
     }
-}
-module.exports = { signup, verifyAccount, resetlink ,changepassword,login};
+  } else {
+    res.send("Incorrect Email or password!");
+  }
+};
+module.exports = { signup, verifyAccount, resetlink, changepassword, login };
