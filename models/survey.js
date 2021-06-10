@@ -13,9 +13,8 @@ const surveySchema = mongoose.Schema({
   subject: {
     type: String,
   },
-  recipients:
-    [
-        recipientSchema  
+  recipients:[
+        recipientSchema
     ],
   yes: {
     type: Number,
@@ -25,14 +24,12 @@ const surveySchema = mongoose.Schema({
     type: Number,
     default: 0,
   },
-//   _user:{
-    // type:mongoose.Schema.Types.ObjectId,
-    // ref:'User},'
-   //relationship between survey and an individual user
+  _user:{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:'User'
+  },
    dateSent: Date,
    lastResponded: Date
 });
-
-
-const Survey = mongoose.model("Survey", surveySchema);
+const Survey = mongoose.models.Survey||mongoose.model("Survey", surveySchema);
 module.exports = { Survey };
