@@ -4,15 +4,12 @@ const cors = require("cors");
 const bcryptjs = require("bcryptjs");
 require("dotenv").config();
 require("./db/connectionDB");
-
 require('./models/User')
 require('./models/Survey')
-
 const authRoutes = require("./routes/auth");
 const surveyRoutes = require("./routes/survey");
 
 const app = express();
-
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
