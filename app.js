@@ -4,7 +4,7 @@ const cors = require("cors");
 const bcryptjs = require("bcryptjs");
 require("dotenv").config();
 require("./db/connectionDB");
-require('./models/User')
+require('./models/user')
 require('./models/Survey')
 const authRoutes = require("./routes/auth");
 const surveyRoutes = require("./routes/survey");
