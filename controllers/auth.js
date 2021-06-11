@@ -27,7 +27,7 @@ const signup = async (req, res) => {
         from: "no-reply@gmail.com",
         to: email,
         subject: "Account activation link",
-        html: `<h2>PLease click on given link to activate your account</h2>
+        html: `<h2>Account activation link</h2>
               <p>http://localhost:2000/api/activate/${token}</p>
        `,
       };
