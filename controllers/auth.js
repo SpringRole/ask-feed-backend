@@ -3,13 +3,7 @@ const nodemailer = require("nodemailer");
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: "santanrathore75209@gmail.com",
-    pass: "*Saheb13*",
-  },
-});
+const {transporter} = require('../utils/transporter')
 
 const signup = async (req, res) => {
   const { username, password, email, phoneNo } = req.body;

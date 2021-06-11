@@ -14,7 +14,7 @@ const surveySchema = mongoose.Schema({
     type: String,
   },
   recipients:[
-        recipientSchema
+       String
     ],
   yes: {
     type: Number,
