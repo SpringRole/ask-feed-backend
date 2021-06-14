@@ -27,9 +27,14 @@ const signup = async (req, res) => {
         from: "no-reply@gmail.com",
         to: email,
         subject: "Account activation link",
-        html: `<h2>Account activation link</h2>
-              <p>http://localhost:2000/api/activate/${token}</p>
-       `,
+        html: `<head>
+              <hr style="height:2px;border-width:0;color:gray;background-color:gray">
+               <a href="default.asp" target="_blank"><p>http://localhost:2000/api/activate/${token}"></p> </a>
+               </style><h2>Account activation link</h2>
+                <hr style="height:2px;border-width:0;color:gray;background-color:gray">
+                <img src=".jpg" alt="Ask-FEED " width="500" height="333">
+               <img src="https://s3bucket_folder.s3.amazonaws.com/uploads/your_company_log.png" width= "40%" align= "center"/></a>
+                `,
       };
       try {
         await transporter.sendMail(data);
@@ -72,7 +77,6 @@ const verifyAccount = async (req, res) => {
 const resetlink = async (req, res) => {
   const { email } = req.body;
   const user = await User.findOne({ email });
-  // console.log("user", user, email);
   if (user) {
     const token = jwt.sign({ email }, process.env.JWT_SECRET, {
       expiresIn: "30m",
@@ -91,7 +95,7 @@ const resetlink = async (req, res) => {
       to: email,
       subject: "Reset link",
       html: `<h2>PLease click on given link to reset your account</h2>
-            <p>http://localhost:2000/api/changepassword/?token=${token}</p>
+            <p>http://localhost:2000/api/changepassword/${token}</p>
      `,
     };
     try {
@@ -107,7 +111,7 @@ const resetlink = async (req, res) => {
 
 const changepassword = async (req, res) => {
   const { password } = req.body;
-  const token = req.query.token;
+  const token = req.params.token;
   const decodedtoken = jwt.verify(token, process.env.JWT_SECRET);
   const hashedPass = await bcryptjs.hashSync(password, 10);
   const user = await User.findOneAndUpdate(

@@ -10,9 +10,9 @@ const {
 } = require("../controllers/auth");
 
 router.post("/signup", signup);
-router.post("/activate", verifyAccount);
+router.post("/activate/:token", verifyAccount);
 router.post("/resetlink", resetlink);
-router.post("/changepassword", changepassword);
+router.post("/changepassword/:token", changepassword);
 router.post("/login", login);
 
 module.exports = router;

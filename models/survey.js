@@ -24,6 +24,7 @@ const surveySchema = mongoose.Schema({
     type: Number,
     default: 0,
   },
+  
   _user:{
     type:mongoose.Schema.Types.ObjectId,
     ref:'User'
