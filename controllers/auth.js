@@ -3,7 +3,7 @@ const nodemailer = require("nodemailer");
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-const {transporter} = require('../utils/transporter')
+const { transporter } = require("../utils/transporter");
 
 const signup = async (req, res) => {
   const { username, password, email, phoneNo } = req.body;
@@ -130,20 +130,45 @@ const changepassword = async (req, res) => {
   }
 };
 const login = async (req, res) => {
-  const { email, password } = req.body;
-  const user = await User.findOne({ email });
-  const { _id } = user;
-  if (user) {
-    console.log("user", user);
-    const matchpassword = await bcryptjs.compare(password, user.password);
-    if (matchpassword && user.isVarified) {
-      const token = jwt.sign({ email, _id }, process.env.JWT_SECRET);
-      res.send({ token });
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne({ email });
+    const { _id } = user;
+    if (user) {
+      console.log("user", user);
+      const matchpassword = await bcryptjs.compare(password, user.password);
+      if (matchpassword && user.isVarified) {
+        const token = jwt.sign({ email, _id }, process.env.JWT_SECRET);
+        res.send({ token });
+      } else {
+        res.send("Login unsuccessful!");
+      }
     } else {
-      res.send("Login unsuccessful!");
+      res.send("Incorrect Email or password!");
     }
-  } else {
-    res.send("Incorrect Email or password!");
+  } catch (e) {
+    throw new ERROR("Fail to create operation");
   }
 };
-module.exports = { signup, verifyAccount, resetlink, changepassword, login };
+const updateProfile = async (req, res) => {
+  try {
+    const { username, phoneNo, _id } = req.body;
+    const userexist = await User.findOneAndUpdate({ _id }, { $set: req.body });
+    if (userexist) {
+      res.send("user updated successfully");
+    } else {
+      res.send("unable to update");
+    }
+  } catch (e) {
+    throw new ERROR("Unable to update");
+  }
+};
+
+module.exports = {
+  signup,
+  verifyAccount,
+  resetlink,
+  changepassword,
+  login,
+  updateProfile,
+};

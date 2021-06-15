@@ -10,7 +10,7 @@ const createSurvey = async (req, res) => {
     subject,
     body,
     recipients,
-    
+
     dateSent: Date.now(),
   });
 
@@ -47,7 +47,7 @@ const createSurvey = async (req, res) => {
 
 const responseYes = async (req, res) => {
   try {
-    const  id  = req.params.id;
+    const id = req.params.id;
 
     const dataToSet = {
       $inc: {
@@ -57,10 +57,8 @@ const responseYes = async (req, res) => {
     const result = await Survey.findByIdAndUpdate(id, dataToSet);
     if (result) {
       res.send("response recorded successfully");
-    }
-    else
-    {
-     res.send("Could not record the respone")
+    } else {
+      res.send("Could not record the respone");
     }
   } catch (e) {
     throw new Error("Internal Serever Error");
@@ -69,7 +67,7 @@ const responseYes = async (req, res) => {
 
 const responseNo = async (req, res) => {
   try {
-    const  id  = req.params.id;
+    const id = req.params.id;
     const dataToSet = {
       $inc: {
         No: 1,
@@ -78,14 +76,20 @@ const responseNo = async (req, res) => {
     const result = await Survey.findByIdAndUpdate(id, dataToSet);
     if (result) {
       res.send("response recorded successfully");
-    }
-    else
-    {
-     res.send("Could not record the respone")
+    } else {
+      res.send("Could not record the respone");
     }
   } catch (e) {
     throw new Error("Internal Serever Error");
   }
 };
+const getSurvey = async (req, res) => {
+  try {
+    const surveys = await Survey.find();
+    res.send(surveys);
+  } catch (e) {
+    throw new Error("Internal Serever Error");
+  }
+};
 
-module.exports = { createSurvey,responseYes, responseNo };
+module.exports = { createSurvey, responseYes, responseNo, getSurvey };
