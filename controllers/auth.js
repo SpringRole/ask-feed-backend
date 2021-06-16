@@ -32,10 +32,19 @@ const signup = async (req, res) => {
                <h2>Click on the following button to activate your account</h2>
                <a href="http://localhost:2000/api/activate/${token}" target="_blank"><p input type="button" onclick="window.location.href='link' ">ACTIVATE ACCOUNT</p> </a>
                <hr style="height:2px;border-width:0;color:gray;background-color:gray">
-               <img src="../contollers/images/askfeedlogo.jpeg" alt="Ask-FEED " width="500" height="333">
-               </style></head>
                
-                `,
+              
+               <img src="cid:askfeedlogo" width="150px" height="150px">      
+               </div>
+           </div>
+         </body>
+       </html>`,
+       attachments: [{
+        filename: 'askfeedlogo.jpeg',
+        path:`${__dirname}/images/askfeedlogo.jpeg`,
+        cid: 'askfeedlogo' 
+    }]
+
       };
       try {
         await transporter.sendMail(data);
@@ -100,7 +109,17 @@ const resetlink = async (req, res) => {
               <a href="http://localhost:2000/api/changepassword/${token}" target="_blank"><p input type="button" onclick="window.location.href='link' ">RESET PASSWORD PASSWORD</p> </a>
               <p></p>
               <hr style="height:2px;border-width:0;color:gray;background-color:gray">
-     `,
+                <img src="cid:askfeedlogo" width="150px" height="150px">      
+                </div>
+            </div>
+            </body>
+            </html>`,
+            attachments: [{
+            filename: 'askfeedlogo.jpeg',
+            path:`${__dirname}/images/askfeedlogo.jpeg`,
+            cid: 'askfeedlogo' 
+            }]
+
     };
     try {
       await transporter.sendMail(data);
