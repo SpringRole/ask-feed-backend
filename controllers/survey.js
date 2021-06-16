@@ -21,8 +21,8 @@ const createSurvey = async (req, res) => {
     html: `    <html>
     <body>
       <div style="text-align: center;">
-        <h3>I'd like your input!</h3>
-        <p>Please answer the following question:</p>
+        <h3>${survey.title}</h3>
+        <p>${survey.subject}</p>
         <p>${survey.body}</p>
         <div>
           <a href=http://localhost:2000/survey/response/yes/${survey._id}>Yes</a>

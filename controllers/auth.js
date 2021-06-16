@@ -29,11 +29,12 @@ const signup = async (req, res) => {
         subject: "Account activation link",
         html: `<head>
               <hr style="height:2px;border-width:0;color:gray;background-color:gray">
-               <a href="default.asp" target="_blank"><p>http://localhost:2000/api/activate/${token}"></p> </a>
-               </style><h2>Account activation link</h2>
-                <hr style="height:2px;border-width:0;color:gray;background-color:gray">
-                <img src=".jpg" alt="Ask-FEED " width="500" height="333">
-               <img src="https://s3bucket_folder.s3.amazonaws.com/uploads/your_company_log.png" width= "40%" align= "center"/></a>
+               <h2>Click on the following button to activate your account</h2>
+               <a href="http://localhost:2000/api/activate/${token}" target="_blank"><p input type="button" onclick="window.location.href='link' ">ACTIVATE ACCOUNT</p> </a>
+               <hr style="height:2px;border-width:0;color:gray;background-color:gray">
+               <img src="../contollers/images/askfeedlogo.jpeg" alt="Ask-FEED " width="500" height="333">
+               </style></head>
+               
                 `,
       };
       try {
@@ -94,8 +95,11 @@ const resetlink = async (req, res) => {
       from: "no-reply@gmail.com",
       to: email,
       subject: "Reset link",
-      html: `<h2>PLease click on given link to reset your account</h2>
-            <p>http://localhost:2000/api/changepassword/${token}</p>
+      html: ` <hr style="height:2px;border-width:0;color:gray;background-color:gray">
+              <h2>PLease click on buuton to reset your password</h2>
+              <a href="http://localhost:2000/api/changepassword/${token}" target="_blank"><p input type="button" onclick="window.location.href='link' ">RESET PASSWORD PASSWORD</p> </a>
+              <p></p>
+              <hr style="height:2px;border-width:0;color:gray;background-color:gray">
      `,
     };
     try {
