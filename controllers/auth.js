@@ -39,12 +39,13 @@ const signup = async (req, res) => {
            </div>
          </body>
        </html>`,
-       attachments: [{
-        filename: 'askfeedlogo.jpeg',
-        path:`${__dirname}/images/askfeedlogo.jpeg`,
-        cid: 'askfeedlogo' 
-    }]
-
+        attachments: [
+          {
+            filename: "askfeedlogo.jpeg",
+            path: `${__dirname}/images/askfeedlogo.jpeg`,
+            cid: "askfeedlogo",
+          },
+        ],
       };
       try {
         await transporter.sendMail(data);
@@ -105,7 +106,7 @@ const resetlink = async (req, res) => {
       to: email,
       subject: "Reset link",
       html: ` <hr style="height:2px;border-width:0;color:gray;background-color:gray">
-              <h2>PLease click on buuton to reset your password</h2>
+              <h2>Please click on buton to reset your password</h2>
               <a href="http://localhost:2000/api/changepassword/${token}" target="_blank"><p input type="button" onclick="window.location.href='link' ">RESET PASSWORD PASSWORD</p> </a>
               <p></p>
               <hr style="height:2px;border-width:0;color:gray;background-color:gray">
@@ -114,12 +115,13 @@ const resetlink = async (req, res) => {
             </div>
             </body>
             </html>`,
-            attachments: [{
-            filename: 'askfeedlogo.jpeg',
-            path:`${__dirname}/images/askfeedlogo.jpeg`,
-            cid: 'askfeedlogo' 
-            }]
-
+      attachments: [
+        {
+          filename: "askfeedlogo.jpeg",
+          path: `${__dirname}/images/askfeedlogo.jpeg`,
+          cid: "askfeedlogo",
+        },
+      ],
     };
     try {
       await transporter.sendMail(data);
