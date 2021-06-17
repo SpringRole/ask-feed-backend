@@ -21,19 +21,27 @@ const createSurvey = async (req, res) => {
     html: `    <html>
     <body>
       <div style="text-align: center;">
+      <img src="cid:askfeedlogo"  width="150px" height="150px"> 
         <h3>${survey.title}</h3>
         <p>${survey.subject}</p>
         <p>${survey.body}</p>
         <div>
-          <a href=http://localhost:2000/survey/response/yes/${survey._id}>Yes</a>
+          <a href=http://localhost:3000/survey/response/yes/${survey._id}>Yes</a>
         </div>
         <div>
-          <a href=http://localhost:2000/survey/response/no/${survey._id}>No</a>
+          <a href=http://localhost:3000/survey/response/no/${survey._id}>No</a>
         </div>
       </div>
     </body>
   </html>
    `,
+    attachments: [
+      {
+        filename: "askfeedlogo.jpeg",
+        path: `${__dirname}/images/askfeedlogo.jpeg`,
+        cid: "askfeedlogo",
+      },
+    ],
   };
 
   try {

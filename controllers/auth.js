@@ -26,19 +26,27 @@ const signup = async (req, res) => {
       const data = {
         from: "no-reply@gmail.com",
         to: email,
-        subject: "Account activation link",
-        html: `<head>
-              <hr style="height:2px;border-width:0;color:gray;background-color:gray">
-               <h2>Click on the following button to activate your account</h2>
-               <a href="http://localhost:2000/api/activate/${token}" target="_blank"><p input type="button" onclick="window.location.href='link' ">ACTIVATE ACCOUNT</p> </a>
-               <hr style="height:2px;border-width:0;color:gray;background-color:gray">
-               
-              
-               <img src="cid:askfeedlogo" width="150px" height="150px">      
-               </div>
-           </div>
-         </body>
-       </html>`,
+        subject: "This is your Email verification link",
+        html: ` <hr style="height:2px;border-width:0;color:gray;background-color:gray">
+        <div style="text-align:center;">
+        <img src="cid:askfeedlogo"  width="150px" height="150px"> 
+        <h2 style="color:black;">Please click on the button to verify your mail!<br>We’re very excited to have you on board!</h2>
+        <button style="background-color:#3362a8"  target="_blank"><p input type="button" onclick="window.location.href='link' "><a style="color:white; text-decoration:none;" href="http://localhost:3000/api/activate/${token}">VERIFY EMAIL</a></p> </button>
+      
+        <hr style="height:2px;border-width:0;color:gray;background-color:gray">
+             
+          </div>
+          </div>
+      </div>
+      </body>
+      </html>`,
+        attachments: [
+          {
+            filename: "askfeedlogo.jpeg",
+            path: `${__dirname}/images/askfeedlogo.jpeg`,
+            cid: "askfeedlogo",
+          },
+        ],
         attachments: [
           {
             filename: "askfeedlogo.jpeg",
@@ -104,17 +112,19 @@ const resetlink = async (req, res) => {
     const data = {
       from: "no-reply@gmail.com",
       to: email,
-      subject: "Reset link",
+      subject: "This is your account reset link",
       html: ` <hr style="height:2px;border-width:0;color:gray;background-color:gray">
-              <h2>Please click on buton to reset your password</h2>
-              <a href="http://localhost:2000/api/changepassword/${token}" target="_blank"><p input type="button" onclick="window.location.href='link' ">RESET PASSWORD PASSWORD</p> </a>
-              <p></p>
-              <hr style="height:2px;border-width:0;color:gray;background-color:gray">
-                <img src="cid:askfeedlogo" width="150px" height="150px">      
-                </div>
-            </div>
-            </body>
-            </html>`,
+      <div style="text-align:center;">
+      <img src="cid:askfeedlogo"  width="150px" height="150px"> 
+      <h2 style="color:black;">This is your account reset link!<br>Please click on the link to reset your password!</h2>
+      <button style="background-color:#3362a8"  target="_blank"><p input type="button" onclick="window.location.href='link' "><a style="color:white; text-decoration:none;" href="http://localhost:3000/api/changepassword/${token}">RESET PASSWORD</a></p> </button> 
+      <hr style="height:2px;border-width:0;color:gray;background-color:gray">
+           
+        </div>
+        </div>
+    </div>
+    </body>
+    </html>`,
       attachments: [
         {
           filename: "askfeedlogo.jpeg",
@@ -158,21 +168,21 @@ const login = async (req, res) => {
   try {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
-    const { _id } = user;
+
     if (user) {
-      console.log("user", user);
+      const { _id } = user;
+
       const matchpassword = await bcryptjs.compare(password, user.password);
       if (matchpassword && user.isVarified) {
         const token = jwt.sign({ email, _id }, process.env.JWT_SECRET);
-        res.send({ token });
-      } else {
-        res.send("Login unsuccessful!");
+        res.send({ token, email: user.email, username: user.username });
       }
     } else {
       res.send("Incorrect Email or password!");
     }
+    e;
   } catch (e) {
-    throw new ERROR("Fail to create operation");
+    throw new Error("Fail to create operation");
   }
 };
 const updateProfile = async (req, res) => {
@@ -185,7 +195,7 @@ const updateProfile = async (req, res) => {
       res.send("unable to update");
     }
   } catch (e) {
-    throw new ERROR("Unable to update");
+    throw new Error("Unable to update");
   }
 };
 

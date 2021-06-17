@@ -1,21 +1,39 @@
-const express = require("express");
+const mongoose = require("mongoose");
+const recipientSchema = require("./recipient");
 
-const router = express.Router();
+const surveySchema = mongoose.Schema(
+  {
+    title: {
+      type: String,
+    },
+    category: {
+      type: String,
+    },
+    body: {
+      type: String,
+    },
+    subject: {
+      type: String,
+    },
+    recipients: [String],
+    yes: {
+      type: Number,
+      default: 0,
+    },
+    No: {
+      type: Number,
+      default: 0,
+    },
 
-const {
-  signup,
-  verifyAccount,
-  resetlink,
-  changepassword,
-  login,
-  updateProfile,
-} = require("../controllers/auth");
+    _user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
 
-router.post("/signup", signup);
-router.post("/activate/:token", verifyAccount);
-router.post("/resetlink", resetlink);
-router.post("/changepassword/:token", changepassword);
-router.post("/login", login);
-router.put("/updateprofile", updateProfile);
-
-module.exports = router;
+    dateSent: Date,
+    lastResponded: Date,
+  },
+  { timestamps: true }
+);
+const Survey = mongoose.models.Survey || mongoose.model("Survey", surveySchema);
+module.exports = { Survey };
