@@ -61,7 +61,7 @@ const responseYes = async (req, res) => {
       $inc: {
         yes: 1,
       },
-    };
+    }
     const result = await Survey.findByIdAndUpdate(id, dataToSet);
     if (result) {
       res.send("response recorded successfully");

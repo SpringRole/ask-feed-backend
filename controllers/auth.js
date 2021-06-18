@@ -6,6 +6,7 @@ const jwt = require("jsonwebtoken");
 const { transporter } = require("../utils/transporter");
 
 const signup = async (req, res) => {
+  try{
   const { username, password, email, phoneNo } = req.body;
   const userexist = await User.findOne({ email });
   if (!userexist) {
@@ -20,7 +21,6 @@ const signup = async (req, res) => {
       phoneNo,
       token,
     };
-
     const user = await User.create(newUser);
     if (user) {
       const data = {
@@ -47,13 +47,6 @@ const signup = async (req, res) => {
             cid: "askfeedlogo",
           },
         ],
-        attachments: [
-          {
-            filename: "askfeedlogo.jpeg",
-            path: `${__dirname}/images/askfeedlogo.jpeg`,
-            cid: "askfeedlogo",
-          },
-        ],
       };
       try {
         await transporter.sendMail(data);
@@ -66,6 +59,11 @@ const signup = async (req, res) => {
   } else {
     res.send("User already exist!");
   }
+}
+catch(e)
+{
+  throw new Error("Failed to create the function")
+}
 };
 
 const verifyAccount = async (req, res) => {
@@ -180,14 +178,13 @@ const login = async (req, res) => {
     } else {
       res.send("Incorrect Email or password!");
     }
-    e;
   } catch (e) {
     throw new Error("Fail to create operation");
   }
 };
 const updateProfile = async (req, res) => {
   try {
-    const { username, phoneNo, _id } = req.body;
+    const { _id } = req.body;
     const userexist = await User.findOneAndUpdate({ _id }, { $set: req.body });
     if (userexist) {
       res.send("user updated successfully");
