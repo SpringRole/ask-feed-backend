@@ -1,14 +1,13 @@
-FROM node:alpine
+FROM node:14.16 
 
-ENV PORT 3000
+WORKDIR /ask-feed
 
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
+COPY package.json /ask-feed/package.json
 
-COPY package*.json /usr/src/app/
 RUN npm install
 
+COPY . /ask-feed
 
-COPY . /usr/src/app
+EXPOSE 3000
 
-CMD ["npm" "run" "start"]
+CMD ["npm","start"]
