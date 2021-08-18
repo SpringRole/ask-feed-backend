@@ -1,7 +1,16 @@
+const { response } = require("express");
 const express = require("express");
-const { createSurvey } = require("../controllers/survey");
 const router = express.Router();
+const { protect } = require("../middlewares/requireLogin");
+const {
+  createSurvey,
+  responseYes,
+  responseNo,
+  getSurvey,
+} = require("../controllers/survey");
 
-router.post("/createsurvey", createSurvey);
-
+router.post("/createsurvey", protect, createSurvey);
+router.put("/response/yes/:id", responseYes);
+router.put("/response/no/:id", responseNo);
+router.get("/getSurvey", getSurvey);
 module.exports = router;
